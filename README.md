@@ -98,10 +98,6 @@ This made the system order-independent and fully functional.
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 Built as a learning project to understand real-time systems, presence management, and event-driven architectures.
