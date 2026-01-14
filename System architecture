@@ -1,0 +1,10 @@
+Client (React)
+   ↓ WebSocket
+Socket.IO Server (Node)
+   ├─ Presence + Typing → Redis
+   ├─ Emit realtime updates
+   └─ Publish activity → Kafka
+                          ↓
+                   Kafka Consumer
+                          ↓
+                   Elasticsearch

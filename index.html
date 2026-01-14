@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket Debug Client</title>
+</head>
+<body>
+
+<input id="userId" placeholder="userId" />
+<button onclick="connect()">Connect</button>
+
+<br /><br />
+
+<input id="message" placeholder="Message" oninput="typing()" />
+<button onclick="sendMessage()">Send</button>
+
+<p id="typing"></p>
+
+<pre id="log"></pre>
+
+<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+<script>
+  let socket;
+  let typingTimer;
+  const roomId = "room1";
+  const users = {};
+
+  function log(msg) {
+    const el = document.getElementById("log");
+    el.textContent += msg + "\n";
+  }
+
+  function connect() {
+    const userId = document.getElementById("userId").value;
+
+    socket = io("http://localhost:5000", {
+      query: { userId }
+    });
+
+    socket.emit("joinRoom", roomId);
+
+    socket.on("presence:init", (data) => {
+      log("Initial users: " + JSON.stringify(data));
+    });
+
+    socket.on("presence:update", ({ userId, status }) => {
+      users[userId] = status;
+      log(`Presence: ${userId} → ${status}`);
+    });
+
+    socket.on("message", ({ userId, text }) => {
+      log(`${userId}: ${text}`);
+    });
+
+    socket.on("typing", ({ userId }) => {
+      document.getElementById("typing").innerText =
+        `${userId} is typing...`;
+    });
+
+    socket.on("stopTyping", () => {
+      document.getElementById("typing").innerText = "";
+    });
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("message");
+    if (!input.value) return;
+
+    socket.emit("message", { roomId, text: input.value });
+    log(`Me: ${input.value}`);
+    input.value = "";
+    socket.emit("stopTyping", { roomId });
+  }
+
+  function typing() {
+    socket.emit("typing", { roomId });
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => {
+      socket.emit("stopTyping", { roomId });
+    }, 800);
+  }
+</script>
+
+</body>
+</html>
