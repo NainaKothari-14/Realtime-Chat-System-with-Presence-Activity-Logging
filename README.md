@@ -67,33 +67,6 @@ This project demonstrates how to build a production-ready chat system with prope
 - Elasticsearch (activity logs & analytics)
 - Docker Compose (service orchestration)
 
-## Project Structure
-
-```
-realtime-chat-system/
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/      # React components
-│   │   ├── services/        # Socket.IO client logic
-│   │   ├── App.jsx          # Main application
-│   │   └── main.jsx         # Entry point
-│   └── vite.config.js
-│
-├── backend/
-│   ├── config/              # Service configurations
-│   ├── controllers/         # Message & user handlers
-│   ├── services/            # Redis, MongoDB, Kafka clients
-│   ├── socket/              # Socket.IO event handlers
-│   ├── models/              # MongoDB schemas
-│   ├── server.js            # Entry point
-│   └── package.json
-│
-├── docker-compose.yml       # Service orchestration
-├── screenshots/             # Application screenshots
-└── README.md
-```
-
 ## Quick Start
 
 ### Prerequisites
